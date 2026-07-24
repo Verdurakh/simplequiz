@@ -1,0 +1,4 @@
+.playwright-mcp/
+slip-*.png
+.vercel
+.DS_Store

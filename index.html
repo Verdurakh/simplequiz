@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1210">
+<title>Simplequiz — your answer slip</title>
+<meta name="description" content="A pub quiz answer slip that lives on your phone. No sign up, nothing sent anywhere.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a1210'/%3E%3Crect x='5' y='9' width='10' height='14' rx='2' fill='none' stroke='%2324382f' stroke-width='2'/%3E%3Crect x='18' y='9' width='10' height='14' rx='2' fill='%23e8b44a' transform='rotate(-2 23 16)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="masthead">
+    <div class="masthead__perf" aria-hidden="true"></div>
+    <div class="masthead__bar">
+      <h1 class="masthead__title">Simplequiz</h1>
+      <button type="button" class="btn btn--ghost" id="review-open">Review</button>
+    </div>
+    <label class="namefield">
+      <span class="namefield__tag">Player</span>
+      <input id="player-name" class="namefield__input" placeholder="Add your name" autocomplete="name" maxlength="24" spellcheck="false">
+    </label>
+  </header>
+
+  <p class="notice" id="storage-notice" hidden role="alert">
+    This device won't let the slip save. Your answers stay on screen, but a reload will wipe them.
+  </p>
+
+  <main class="slip" id="slip">
+    <ol class="rows" id="rows" aria-label="Your answers"></ol>
+    <p class="empty" id="empty">
+      Nothing on the slip yet.<br>
+      When the host reads question one, tap it in below.
+    </p>
+  </main>
+
+  <form class="compose" id="compose" autocomplete="off" novalidate>
+    <div class="compose__head">
+      <span class="compose__num" id="compose-num">01</span>
+      <span class="compose__state" id="compose-state">New answer</span>
+      <button type="button" class="linkbtn" id="compose-cancel" hidden>Cancel</button>
+    </div>
+
+    <input type="text" id="q-label" class="input input--label" placeholder="Question (optional)" maxlength="90">
+
+    <div class="seg" role="group" aria-label="Answer format">
+      <button type="button" class="seg__btn is-on" data-type="text" aria-pressed="true">Free text</button>
+      <button type="button" class="seg__btn" data-type="pick" aria-pressed="false">1 <i>·</i> X <i>·</i> 2</button>
+    </div>
+
+    <input type="text" id="a-text" class="input input--answer" placeholder="Your answer" maxlength="140">
+
+    <div class="picks" id="a-pick" role="group" aria-label="Choose 1, X or 2" hidden>
+      <button type="button" class="pick" data-pick="1" aria-pressed="false">1</button>
+      <button type="button" class="pick" data-pick="X" aria-pressed="false">X</button>
+      <button type="button" class="pick" data-pick="2" aria-pressed="false">2</button>
+    </div>
+
+    <button type="submit" class="btn btn--primary" id="save">Save &amp; next</button>
+    <button type="button" class="linkbtn linkbtn--danger" id="delete" hidden>Delete this answer</button>
+  </form>
+
+</div>
+
+<section class="sheet" id="sheet" hidden aria-labelledby="sheet-title" role="dialog" aria-modal="true">
+  <header class="sheet__bar">
+    <h2 class="sheet__title" id="sheet-title">Your slip</h2>
+    <button type="button" class="btn btn--ghost" id="sheet-close">Close</button>
+  </header>
+
+  <div class="score" id="score" hidden>
+    <p class="score__value"><span id="score-right">0</span><i>/</i><span id="score-total">0</span></p>
+    <p class="score__label" id="score-label">Nothing marked yet</p>
+  </div>
+
+  <div class="sheet__body">
+    <ol class="rows rows--review" id="sheet-rows"></ol>
+  </div>
+
+  <footer class="sheet__actions">
+    <button type="button" class="btn btn--primary" id="act-correct">Correct the slip</button>
+    <button type="button" class="btn btn--ghost" id="act-copy">Copy answers</button>
+    <button type="button" class="btn btn--ghost" id="act-back" hidden>Back to answers</button>
+    <button type="button" class="linkbtn linkbtn--danger" id="act-clear">Clear the slip</button>
+  </footer>
+</section>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
