@@ -8,7 +8,7 @@
   /**
    * @typedef {"text"|"pick"} AnswerType
    * @typedef {"right"|"wrong"|null} Mark
-   * @typedef {{ id: string, label: string, type: AnswerType, answer: string, mark: Mark }} Entry
+   * @typedef {{ id: string, label: string, type: AnswerType, answer: string, note: string, mark: Mark }} Entry
    * @typedef {{ version: number, name: string, entries: Entry[] }} State
    */
 
@@ -43,6 +43,8 @@
     segButtons: document.querySelectorAll(".seg__btn"),
     text: document.getElementById("a-text"),
     pick: document.getElementById("a-pick"),
+    note: document.getElementById("q-note"),
+    noteToggle: document.getElementById("note-toggle"),
     save: document.getElementById("save"),
     del: document.getElementById("delete"),
     reviewOpen: document.getElementById("review-open"),
@@ -97,6 +99,7 @@
       label: typeof value.label === "string" ? value.label : "",
       type: value.type === "pick" ? "pick" : "text",
       answer: value.answer,
+      note: typeof value.note === "string" ? value.note : "",
       mark: value.mark === "right" || value.mark === "wrong" ? value.mark : null
     };
   }
@@ -181,6 +184,13 @@
         answer.textContent = "No answer";
       }
       body.appendChild(answer);
+    }
+
+    if (entry.note) {
+      var note = document.createElement("span");
+      note.className = "row__note";
+      note.textContent = entry.note;
+      body.appendChild(note);
     }
 
     host.appendChild(body);
@@ -268,14 +278,23 @@
     return lastType === "pick" ? currentPick() : el.text.value.trim();
   }
 
+  /** A note on its own is enough to commit a row — that is how a question gets parked. */
   function refreshSave() {
-    el.save.disabled = currentAnswer() === "";
+    el.save.disabled = currentAnswer() === "" && el.note.value.trim() === "";
+  }
+
+  function showNote(open) {
+    el.note.hidden = !open;
+    el.noteToggle.hidden = open;
+    el.noteToggle.setAttribute("aria-expanded", open ? "true" : "false");
   }
 
   function resetCompose() {
     editingId = null;
     el.label.value = "";
     el.text.value = "";
+    el.note.value = "";
+    showNote(false);
     setPick("");
     setType(lastType);
     el.composeNum.textContent = num(state.entries.length);
@@ -293,6 +312,8 @@
 
     editingId = id;
     el.label.value = entry.label;
+    el.note.value = entry.note;
+    showNote(entry.note !== "");
     setType(entry.type);
     if (entry.type === "pick") {
       setPick(entry.answer);
@@ -315,7 +336,8 @@
   function commit(event) {
     event.preventDefault();
     var answer = currentAnswer();
-    if (answer === "") return;
+    var note = el.note.value.trim();
+    if (answer === "" && note === "") return;
 
     if (editingId) {
       var index = findIndex(editingId);
@@ -323,6 +345,7 @@
         state.entries[index].label = el.label.value.trim();
         state.entries[index].type = lastType;
         state.entries[index].answer = answer;
+        state.entries[index].note = note;
       }
       save();
       resetCompose();
@@ -336,6 +359,7 @@
       label: el.label.value.trim(),
       type: lastType,
       answer: answer,
+      note: note,
       mark: null
     });
     save();
@@ -424,6 +448,7 @@
       var mark = entry.mark === "right" ? "  ✓" : entry.mark === "wrong" ? "  ✗" : "";
       lines.push(num(index) + "  " + (entry.label || "—"));
       lines.push("    " + (entry.answer || "no answer") + mark);
+      if (entry.note) lines.push("    note: " + entry.note);
     });
 
     var marked = state.entries.filter(function (entry) { return entry.mark; }).length;
@@ -522,6 +547,12 @@
     });
 
     el.text.addEventListener("input", refreshSave);
+    el.note.addEventListener("input", refreshSave);
+
+    el.noteToggle.addEventListener("click", function () {
+      showNote(true);
+      el.note.focus();
+    });
     el.compose.addEventListener("submit", commit);
     el.composeCancel.addEventListener("click", function () {
       resetCompose();

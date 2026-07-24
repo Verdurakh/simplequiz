@@ -12,12 +12,15 @@ the device that typed it and never leaves the browser.
 2. As each question is read out, the compose card at the bottom is already
    numbered. Type a short reminder of the question (optional), pick the answer
    format — **Free text** or **1 · X · 2** — enter the answer, tap **Save & next**.
-3. Repeat until the round ends. Tap any saved row to edit or delete it.
-4. Tap **Review** to see the whole slip, then **Correct the slip**. As the host
+3. Not sure? Tap **Add a note**, park a thought, and save without an answer. The
+   row shows as `No answer` with the note beside it, so it stands out as unfinished
+   until you tap it and fill the answer in.
+4. Repeat until the round ends. Tap any saved row to edit or delete it.
+5. Tap **Review** to see the whole slip, then **Correct the slip**. As the host
    reads the answers, tap ✓ or ✗ on each row. The score updates live and reads
    **Final score** once every question is marked.
-5. **Copy answers** puts the slip on the clipboard as plain text, for pasting
-   into a group chat.
+6. **Copy answers** puts the slip on the clipboard as plain text, notes included,
+   for pasting into a group chat.
 
 Reloading, locking the phone, or closing the tab does not lose anything.
 **Clear the slip** (two taps) wipes it for the next round.

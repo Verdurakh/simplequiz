@@ -35,8 +35,13 @@ parameterised by `{ interactive, judging }`. Change it once, both views follow.
 
 ```js
 { version: 1, name: string, entries: Entry[] }
-// Entry: { id, label, type: "text"|"pick", answer, mark: "right"|"wrong"|null }
+// Entry: { id, label, type: "text"|"pick", answer, note, mark: "right"|"wrong"|null }
 ```
+
+A row commits when it has an answer **or** a note. That is deliberate: a player who
+is unsure parks a thought, the row saves with an empty answer and renders as
+`No answer` in italic, and the incomplete row is its own reminder to come back. Do
+not "fix" this by requiring an answer.
 
 Persisted to `localStorage` under `simplequiz.v1` after every change. If the shape
 of `Entry` changes incompatibly, bump the key and migrate — a returning player must

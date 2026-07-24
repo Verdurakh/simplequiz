@@ -215,6 +215,17 @@ button, input { font: inherit; color: inherit; }
   font-weight: 400;
 }
 
+/* a parked thought, set apart from the answer by a margin rule */
+.row__note {
+  padding-left: 9px;
+  border-left: 2px solid var(--brass-dim);
+  color: var(--pencil);
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
 /* the 1 X 2 boxes as they read back on the slip */
 .boxes {
   display: flex;
@@ -323,6 +334,15 @@ button, input { font: inherit; color: inherit; }
 .input--label:focus { color: var(--paper); }
 
 .input--answer { margin-top: 10px; font-weight: 500; }
+
+.input--note {
+  margin-top: 10px;
+  min-height: 68px;
+  font-size: 15px;
+  line-height: 1.4;
+  resize: none;
+  font-family: inherit;
+}
 
 /* format switch */
 .seg {
@@ -445,6 +465,7 @@ button, input { font: inherit; color: inherit; }
 }
 
 .linkbtn--danger { display: block; width: 100%; margin-top: 4px; color: #a86257; }
+.linkbtn--note { display: block; margin-top: 4px; }
 
 /* ---------- review / correct sheet ---------- */
 
